@@ -1,0 +1,6 @@
+{
+    "/": {
+      "target": "https://goldenplaterestaurant.net/wp-json/wc/v3/orders?consumer_key=ck_ec4c94b2146c582073cc16324597b142b6eff95c&consumer_secret=cs_975d9ab49908b8f0d7246aad12f0ad4e74c091a4",
+      "secure": false
+    }
+  }

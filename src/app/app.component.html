@@ -1,0 +1,91 @@
+<nz-layout class="app-layout" >
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    *ngIf="
+      !(
+        _router.url === '/404' ||
+        _router.url === '/login' ||
+        _router.url === '/register'
+      )
+    "
+  >
+    <div class="sidebar-logo">
+      <a href="#">
+        <img src="https://thematchguy.com/wp-content/uploads/2023/08/The-Match-Guy-2.webp" alt="logo"/>
+        <h1>The Match Guy</h1>
+      </a>
+    </div>
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/reservation">Saved</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/reserved-table-date">Order</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/reservation-form">Img list</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Settings" nzIcon="setting">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/profile">Profile</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <button
+              nz-button
+              nzType="primary"
+              nzDanger
+              nzGhost
+              (click)="logout()"
+            >
+              Logout
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header
+      *ngIf="
+        !(
+          _router.url === '/404' ||
+          _router.url === '/login' ||
+          _router.url === '/register'
+        )
+      "
+    >
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<app-reservation-form
+  *ngIf="_router.url == '/reservation-form'"
+></app-reservation-form>

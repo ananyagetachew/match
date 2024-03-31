@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <nz-card nzTitle="User Profile" class="mb-4">
+    <div class="row">
+      <div class="col-md-4">
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Profile Image"
+          class="img-fluid rounded-circle mb-3"
+        />
+        <button nz-button nzType="primary">Change Profile Picture</button>
+      </div>
+      <div class="col-md-8">
+        <form nz-form [formGroup]="profileForm">
+          <nz-form-item>
+            <nz-form-label>Email</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                type="email"
+                formControlName="email"
+                id="email"
+                name="email"
+              />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Full Name</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                type="text"
+                formControlName="fullName"
+                id="fullName"
+                name="fullName"
+              />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Phone Number</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                type="phoneNumber"
+                id="phoneNumber"
+                name="phoneNumber"
+                formControlName="phoneNumber"
+              />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary">Update Profile</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+    </div>
+  </nz-card>
+</div>

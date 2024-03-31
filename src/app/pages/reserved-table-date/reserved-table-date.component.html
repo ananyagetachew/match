@@ -1,0 +1,35 @@
+<nz-card style="width: 100%" nzTitle = "Order table data">
+  <nz-table
+    #middleTable
+    nzTableLayout="fixed"
+    [nzPageSize]="10"
+    nzBordered
+    nzSize="middle"
+    [nzScroll]="{ y: '300px' }"
+    [nzData]="posts"
+  >
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Total</th>
+    
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of middleTable.data">
+        <ng-container >
+          <td>{{ data.id }}</td>
+          <td>{{ data.date_created }}</td>
+          <td>{{ data.total }}</td>
+          <td><button type="button" class="btn btn-primary" routerLink="/detail" [state]="data">detail</button></td>
+
+
+       
+        </ng-container>
+        
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

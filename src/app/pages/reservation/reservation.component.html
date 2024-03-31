@@ -1,0 +1,237 @@
+<nz-card nzBorderless style="width: 100%" [nzExtra]="extraTemplate">
+  <nz-card-tab>
+    <nz-tabset
+      [(nzSelectedIndex)]="activeTabIndex"
+      (nzSelectedIndexChange)="onTabChange($event)"
+    >
+      <nz-tab *ngFor="let tab of dates" [nzTitle]="tab">
+        <nz-table
+          #filterTable
+          [nzData]="listOfData"
+          nzTableLayout="fixed"
+          [nzPageSize]="10"
+          nzBordered
+          nzSize="small"
+          [nzScroll]="{ x: '1200px', y: '300px' }"
+        >
+          <thead>
+            <tr>
+              <th nzLeft>Name</th>
+              <th>Phone</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Occasion</th>
+              <th>People</th>
+              <th>Status</th>
+              <th nzRight nzAlign="center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let data of filterTable.data">
+              <tr>
+                <ng-container
+                  *ngIf="!editCache[data.id].edit; else editTemplate"
+                >
+                  <td
+                    nzLeft
+                    [nzExpand]="expandSet.has(data.id)"
+                    (nzExpandChange)="onExpandChange(data.id, $event)"
+                  >
+                    <strong>{{ data.fullName }}</strong>
+                  </td>
+                  <td>{{ data.phone }}</td>
+                  <td>{{ data.date | date : "mediumDate" }}</td>
+                  <td>{{ data.time }}</td>
+                  <td>{{ data.occasion }}</td>
+                  <td>{{ data.numberOfPeople }}</td>
+                  <td>
+                    <nz-badge
+                      *ngIf="data.status == 'Pending'"
+                      nzStatus="processing"
+                      [nzText]="data.status"
+                    ></nz-badge>
+                    <nz-badge
+                      *ngIf="data.status == 'Active'"
+                      nzStatus="success"
+                      [nzText]="data.status"
+                    ></nz-badge>
+                    <nz-badge
+                      *ngIf="data.status == 'Deactive'"
+                      nzStatus="error"
+                      [nzText]="data.status"
+                    ></nz-badge>
+                  </td>
+                  <td nzRight nzAlign="center">
+                    <button
+                      nz-button
+                      nzType="primary"
+                      (click)="startEdit(data.id)"
+                      class="save"
+                      nzGhost
+                    >
+                      <span nz-icon nzType="edit"></span>
+                    </button>
+                    <button
+                      nz-button
+                      nz-popconfirm
+                      nzDanger
+                      nzPopconfirmTitle="Sure to delete {{ data.fullName }}?"
+                      (nzOnConfirm)="deleteData(data.id)"
+                    >
+                      <span nz-icon nzType="delete" nzTheme="outline"></span>
+                    </button>
+                  </td>
+                </ng-container>
+                <ng-template #editTemplate>
+                  <td nzLeft>
+                    <input
+                      type="text"
+                      nz-input
+                      [(ngModel)]="editCache[data.id].data.fullName"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="tel"
+                      nz-input
+                      [(ngModel)]="editCache[data.id].data.phone"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      nz-input
+                      [(ngModel)]="editCache[data.id].data.date"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="time"
+                      nz-input
+                      [(ngModel)]="editCache[data.id].data.time"
+                    />
+                  </td>
+                  <td>
+                    <nz-select [(ngModel)]="editCache[data.id].data.occasion">
+                      <nz-option
+                        nzValue="Birthday"
+                        nzLabel="Birthday"
+                      ></nz-option>
+                      <nz-option
+                        nzValue="Anniversary"
+                        nzLabel="Anniversary"
+                      ></nz-option>
+                      <nz-option
+                        nzValue="Engagement"
+                        nzLabel="Engagement"
+                      ></nz-option>
+                      <nz-option
+                        nzValue="Graduation"
+                        nzLabel="Graduation"
+                      ></nz-option>
+                      <nz-option
+                        nzValue="Farewell"
+                        nzLabel="Farewell"
+                      ></nz-option>
+                      <nz-option
+                        nzValue="Other Special Event"
+                        nzLabel="Other Special Event"
+                      ></nz-option>
+                    </nz-select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      nz-input
+                      [(ngModel)]="editCache[data.id].data.numberOfPeople"
+                    />
+                  </td>
+                  <td>
+                    <nz-select [(ngModel)]="editCache[data.id].data.status">
+                      <nz-option
+                        nzValue="Pending"
+                        nzLabel="Pending"
+                      ></nz-option>
+                      <nz-option nzValue="Active" nzLabel="Active"></nz-option>
+                      <nz-option
+                        nzValue="Deactive"
+                        nzLabel="Deactive"
+                      ></nz-option>
+                    </nz-select>
+                  </td>
+                  <td nzRight nzAlign="center">
+                    <button
+                      nz-button
+                      (click)="saveEdit(data.id)"
+                      class="save"
+                      nzType="primary"
+                      nzShape="circle"
+                    >
+                      <span nz-icon nzType="save"></span>
+                    </button>
+                    <button
+                      nz-button
+                      nzShape="circle"
+                      nz-popconfirm
+                      nzPopconfirmTitle="Sure to cancel?"
+                      (nzOnConfirm)="cancelEdit(data.id)"
+                    >
+                      <span nz-icon nzType="close-square"></span>
+                    </button>
+                  </td>
+                </ng-template>
+              </tr>
+              <tr [nzExpand]="expandSet.has(data.id)">
+                <ng-container>
+                  <tr>
+                    <td>Name</td>
+                    <td>{{ data.fullName }}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>{{ data.email }}</td>
+                  </tr>
+                  <tr>
+                    <td>Phone</td>
+                    <td>{{ data.phone }}</td>
+                  </tr>
+                  <tr>
+                    <td>Date</td>
+                    <td>{{ data.date | date : "mediumDate" }}</td>
+                  </tr>
+                  <tr>
+                    <td>Time</td>
+                    <td>{{ data.time }}</td>
+                  </tr>
+                  <tr>
+                    <td>People</td>
+                    <td>{{ data.numberOfPeople }}</td>
+                  </tr>
+                  <tr>
+                    <td>Occasion</td>
+                    <td>{{ data.occasion }}</td>
+                  </tr>
+                  <tr>
+                    <td>Message</td>
+                    <td>{{ data.message }}</td>
+                  </tr>
+                </ng-container>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+</nz-card>
+<ng-template #extraTemplate>
+  <nz-space>
+    <nz-input-group  *nzSpaceItem [nzSuffix]="suffixIconSearch">
+      <input type="text" nz-input placeholder="Search..." (input)="filterItems($event)"/>
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+    <nz-date-picker *nzSpaceItem [(ngModel)]="selectedDate" (ngModelChange)="filterItemsByDate()"></nz-date-picker>
+  </nz-space>
+</ng-template>

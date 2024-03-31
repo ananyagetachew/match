@@ -1,0 +1,99 @@
+<nz-card style="width: 100%" nzTitle = "order">
+    <nz-table
+      nzBordered
+      [nzScroll]="{ y: '300px' }"
+      [nzData]="skie"
+    >
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Date</th>
+          <th>Total</th>
+      
+ 
+        </tr>
+      </thead>
+      <tbody>
+        <tr >
+          <ng-container >
+            <td>{{ this.skie.id }}</td>
+            <td>{{ this.skie.date_created }}</td>
+            <td>{{ this.skie.total }}</td>
+           
+  
+  
+         
+          </ng-container>
+          
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <nz-card style="width: 100%" nzTitle = "Products">
+        <nz-table
+         
+
+          [nzPageSize]="10"
+          nzBordered
+          nzSize="middle"
+          [nzScroll]="{ y: '100px' }"
+          [nzData]="skie2"
+
+        >
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Product name</th>
+              <th>quantity</th>
+              <th>price</th>
+          
+              <th>total</th>
+              <th>advisor</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of skie2">
+              <ng-container >
+                <td>{{ data.id }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.quantity }}</td>
+                <td>{{ data.price }}</td>
+                <td>{{ data.total }}</td>
+                <td>
+
+                    <select
+                    formControlName="Advisor"
+                    class="form-select form-select-sm"
+                    id="Advisor"
+                    name="Advisor"
+                    aria-label="Select Advisor"
+                   
+                  >
+                    <option selected>Malek Bawadkji, MD
+                    </option>
+                    <option value="Birthday">Saleem Toro, MD</option>
+                    <option value="Anniversary">Dr. Firas Bahdi, MD</option>
+                    <option value="Engagement">Majd El-harasis, MD</option>
+                    <option value="Graduation">Heya Batah, MD</option>
+                    <option value="Farewell">Joseph Sleiman, MD</option>
+                    <option value="Other Special Event">Dr. Louis Saade, MD
+                    </option>
+                  </select>
+                    </td>
+                  <td><button type="button" class="btn btn-primary" (click)="save(data.name,data.quantity,data.price,data.total)">
+                    Save
+                  </button></td>
+      
+      
+             
+              </ng-container>
+              
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </nz-card>
+
+  
+  

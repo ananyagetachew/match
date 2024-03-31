@@ -1,0 +1,108 @@
+<div class="container">
+  <nz-card nzTitle="Register" class="mb-4">
+    <form
+      nz-form
+      [formGroup]="registerForm"
+      (ngSubmit)="submitForm()"
+      class="register-form"
+    >
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="errorTpl">
+          <nz-input-group nzPrefixIcon="user" nzSize="large">
+            <input
+              type="text"
+              nz-input
+              placeholder="Full Name"
+              nzSize="large"
+              formControlName="fullName"
+              id="fullName"
+              name="fullName"
+            />
+            <ng-template #errorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Name is required!</ng-container
+              >
+              <ng-container *ngIf="control.hasError('minLength')">
+                Name must greater than 3 chars
+              </ng-container>
+              <ng-container *ngIf="control.hasError('maxLength')">
+                Name must less than 20 chars
+              </ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">
+                Name must only chars
+              </ng-container>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="The input is not valid E-mail!">
+          <nz-input-group nzPrefixIcon="mail" nzSize="large">
+            <input
+              nz-input
+              formControlName="email"
+              id="email"
+              placeholder="Email"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzValidateStatus]="registerForm.controls['phone']"
+          nzErrorTip="Please input your phone number!"
+          ><nz-input-group nzPrefixIcon="phone" nzSize="large">
+            <input
+              formControlName="phone"
+              id="'phone'"
+              nz-input
+              placeholder="Phone Number"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your password!"
+          ><nz-input-group nzPrefixIcon="lock" nzSize="large">
+            <input
+              nz-input
+              type="password"
+              id="password"
+              formControlName="password"
+              (ngModelChange)="updateConfirmValidator()"
+              placeholder="Password"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="errorTpl">
+          <nz-input-group nzPrefixIcon="lock" nzSize="large">
+            <input
+              nz-input
+              type="password"
+              formControlName="confirmPassword"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+            />
+          </nz-input-group>
+          <ng-template #errorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Please confirm your password!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('confirm')">
+              Two passwords that you enter is inconsistent!
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" nzSize="large">Register</button>
+        </nz-form-control>
+      </nz-form-item>
+      Or
+      <a routerLink="/login">Login!</a>
+    </form>
+  </nz-card>
+</div>
